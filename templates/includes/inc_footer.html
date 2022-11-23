@@ -1,0 +1,26 @@
+<div>
+    <nav class="navbar navbar-expand-md bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-link">
+                        &copy; {{ company.title }}
+                    </li>
+                    {% for item in company.get_phone_numbers %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="tel:{{ item }}">{{ item }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="mailto:{{ company.email }}">{{ company.email }}</a>
+                    </li>
+                </ul>
+                <div>
+
+                    <a class="nav-link" href="https://yandex.ru/maps/?text={{ company.address }}"
+                       target="_blank">{{ company.address }}</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

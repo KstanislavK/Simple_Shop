@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <div>
+            Серии:
+            <a href="{% url 'productapp:products' %}" class="link-primary" style="margin-left: 10px;">Все</a>
+            {% for category in category_links %}
+                <a href="{% url 'productapp:products_by_category' category.0 %}"
+                   class="link-primary" style="margin-left: 10px;">{{ category.1 }}</a>
+            {% endfor %}
+        </div>
+        <hr>
+        {% if category %}
+            <div class="container">
+            <img src="/media/{{ category.image }}" class="img-fluid mx-auto d-block"
+                             alt="{{ category_img.title }}">
+            {{ category.description|linebreaks }}
+            </div>
+        {% endif %}
+        <div class="d-flex justify-content-around flex-wrap">
+
+            {% for object in objects %}
+                <div class="card" style="min-width: 200px; max-width: 300px; margin-top: 15px;">
+                    <a href="{% url 'productapp:products_detail' object.pk %}">
+                        <img src="/media/products_img/{{ object.image }}" class="card-img-top img-thumbnail"
+                             alt="{{ object.title }}">
+                    </a>
+                    <div class="card-body">
+                        <a href="{% url 'productapp:products_detail' object.pk %}"
+                           class="link-dark" style="text-decoration: none">
+                            <div>
+                                <h5 class="card-title">{{ object.title }}
+                                    {% if object.is_sale %}
+                                        <span style="color: red;">АКЦИЯ!</span>
+                                    {% endif %}
+                                </h5>
+                                <p class="card-text">
+                                Цена:
+                                    {% if object.is_sale %}
+                                        <s><small class="text-muted">от {{ object.price }}</small></s>
+                                        от <span style="color: red; font-weight: bold;">{{ object.sale_price }}</span> руб.
+                                    {% else %}
+                                        <span>от {{ object.price }} руб.</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'productapp:products_detail' object.pk %}" class="btn btn-outline-primary btn-buy" type="button">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

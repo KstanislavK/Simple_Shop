@@ -1,0 +1,48 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="margin: 0; padding: 0; text-align: center;">
+
+<h3>Ваш заказ от {{ object.created_at|date:"d.m.Y" }}</h3>
+
+<table align="center", border="0", cellpadding="0" cellspacing="0" width="320"
+       style="border: 1px; border-collapse: collapse; font-family:  Arial, sans-serif; font-size: 18px; line-height: 1.5;">
+<thead>
+<tr>
+    <th>Товар</th>
+    <th>Количество</th>
+    <th>Цена</th>
+</tr>
+</thead>
+    <tbody>
+        {% for item in object.get_orders_products %}
+            <tr>
+                <td><b>{{ item.product.title }}</b></td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.get_cost }} руб.</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2">Итого:</td>
+            <td>{{ object.get_total_cost }}</td>
+        </tr>
+        {% if object.comment %}
+        <tr>
+            <td colspan="3">Коментарий: {{ object.comment }}</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<h4>Спасибо за заказ!</h4>
+<p>Менеджер свяжется с Вами в ближайшее время</p>
+<p>&copy; 2022</p>
+</body>
+</html>

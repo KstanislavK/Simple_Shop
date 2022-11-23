@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header">Ваш заказ</h5>
+            <div class="card-body">
+            <table class="table">
+                <tbody>
+                    {% for item in object %}
+                        <tr>
+                            <td>{{ item.product.title }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.total_price }} руб.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            <div class="card-footer">
+                <p>Всего: <b>{{ object.get_total_price }} руб.</b></p>
+            </div>
+        </div>
+        <form action="." method="post" class="form-control">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Оформить заказ"></p>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="card mb-3 border-0" style="max-width: 100%; padding-top: 15px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/media/products_img/{{ object.image }}"
+                         class="img-fluid rounded-start"
+                         alt="{{ object.title }}"
+                         style="width: 1000px;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ object.title }}, Серия {{ object.category.title }}</h3>
+                        <p class="card-text">{{ object.description|linebreaks }}</p>
+                        <p class="card-text"><b>Цена:</b>
+                            {% if object.is_sale %}
+                                <s><small class="text-muted">{{ object.price }}</small></s>
+                                <span>{{ object.sale_price }}</span>
+                            {% else %}
+                                <span>от {{ object.price }} руб.</span>
+                            {% endif %}</p>
+                        <div>
+                            <form action="{% url 'basketapp:cart_add' object.pk %}" id="form_amount_prods"
+                                  class="row g-3" method="post">
+                                <div class="col-auto">
+                                    {{ cart_product_form }}
+                                    {% csrf_token %}
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-outline-primary" type="submit">В корзину</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4>Товары этой категории</h4>
+        <div class="container d-flex justify-content-around flex-wrap">
+            {% for item in cat_prods %}
+                <div class="card" style="min-width: 200px; max-width: 300px; margin-top: 15px;">
+                    <a href="{% url 'productapp:products_detail' item.pk %}">
+                        <img src="/media/products_img/{{ item.image }}" class="card-img-top img-thumbnail"
+                             alt="{{ object.title }}">
+                    </a>
+                    <div class="card-body">
+                        <a href="{% url 'productapp:products_detail' item.pk %}"
+                           class="link-dark" style="text-decoration: none">
+                            <div>
+                                <h5 class="card-title">{{ item.title }}
+                                    {% if item.is_sale %}
+                                        <span style="color: red;">АКЦИЯ!</span>
+                                    {% endif %}
+                                </h5>
+                                <p class="card-text">
+                                    Цена:
+                                    {% if item.is_sale %}
+                                        <s><small class="text-muted">{{ item.price }}</small></s>
+                                        от <span style="color: red; font-weight: bold;">{{ item.sale_price }}</span> руб.
+                                    {% else %}
+                                        <span>от {{ item.price }} руб.</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

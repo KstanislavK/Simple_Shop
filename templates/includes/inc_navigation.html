@@ -1,0 +1,41 @@
+{% load static %}
+<div>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">
+            <img src="/media/{{ company.logo }}" alt="" style="max-width: 150px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mainapp:index' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productapp:products' %}">Каталог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productapp:price_list' %}">Прайс-лист</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mainapp:contacts' %}">Контакты</a>
+                    </li>
+                </ul>
+                <div>
+                    {% with total_items=cart|length %}
+                        {% if cart|length > 0 %}
+                            Корзина:
+                            <a href="{% url 'basketapp:cart_detail' %}" class="link-dark">
+                                {{ cart.get_total_product_amount }} товар(ов), {{ cart.get_total_price }} руб.
+                            </a>
+                        {% else %}
+                            Корзина пуста
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+        <div class="container d-flex justify-content-between" style="padding-top: 15px;">
+            <div>
+                <h6>{{ object.title }}</h6>
+                {% for item in object.get_phone_numbers %}
+                    <p>
+                        <a class="nav-link" href="tel:{{ item }}"><i class="bi bi-telephone"></i> {{ item }}</a>
+                    </p>
+                {% endfor %}
+                <p>
+                    <a class="nav-link" href="mailto:{{ object.email }}"> <i
+                            class="bi bi-envelope"></i> {{ object.email }}</a>
+                </p>
+            </div>
+            <div>
+                <h6>Адрес</h6>
+                {{ object.address }}
+                <br>
+                <br>
+                <h6>Офис работает</h6>
+                {{ object.working_hours|linebreaks }}
+            </div>
+        </div>
+        {{ object.map|safe }}
+    <div class="contact-form container">
+        <h2>Обратная связь</h2>
+        <form action="" method='post' class="form-control">
+            {% csrf_token %}
+            <div class="">
+                <label for="name">Имя:</label>
+                <input id="name" type="text" placeholder="Введите Ваше имя" name="name" class="form-control">
+                <label for="email">Email:</label>
+                <input id="email" type="email" placeholder="Введите Ваш Email" name="email" class="form-control">
+                <label for="message">Сообщение:</label>
+                <textarea id="message" rows="3" placeholder="Введите Ваше сообщение" name="message" class="form-control"></textarea>
+            </div>
+            <div style="padding-top: 10px; text-align: center" class="d-grid gap-2">
+                <button type="submit" class="btn btn-outline-primary">Отправить</button>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

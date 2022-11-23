@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <h1>Ваша корзина</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Фото</th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in object %}
+            {% with product=item.product %}
+                <tr>
+                    <td>
+                        <a href="{% url 'productapp:products_detail' product.pk %}">
+                            <img src="/media/products_img/{{ product.image }}" alt="" style="width: 50px;">
+                        </a>
+                    </td>
+                    <td>
+                        <b>{{ product.title }}</b><br>
+                        {{ product.category }}
+                    </td>
+                    <td>{{ item.quantity }} м.п.</td>
+                    <td>{{ item.price }} руб.</td>
+                    <td>{{ item.total_price }} руб.</td>
+                    <td>
+                        <a href="{% url 'basketapp:cart_remove' product.id %}">Удалить</a>
+                    </td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr>
+            <td>Всего</td>
+            <td colspan="3"></td>
+            <td>{{ object.get_total_price }} руб.</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <a href="{% url 'productapp:products' %}" class="button light">Продолжить покупки</a>
+        <a href="{% url 'orderapp:order_create' %}" class="button">Оформить</a>
+    </p>
+{% endblock %}
